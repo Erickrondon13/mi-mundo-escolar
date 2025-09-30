@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Página de Presentación - Primaria (Guardar en Google Sheets)</title>
+  <style>
+    :root{
+      --accent:#2b8cff;
+      --bg:#f6f9ff;
+      --card:#fff;
+      --text:#0b2540;
+      font-family: Inter, system-ui, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);padding:20px}
+    .wrap{max-width:1000px;margin:0 auto}
+    header{display:flex;align-items:center;gap:16px}
+    header h1{margin:0;font-size:1.5rem}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:18px;margin-top:18px}
+    @media (max-width:920px){.grid{grid-template-columns:1fr}}
+    section.card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(10,20,40,0.06)}
+    label{display:block;margin-top:10px;font-weight:600}
+    input[type="text"], input[type="email"], textarea, select {
+      width:100%;padding:10px;margin-top:6px;border-radius:8px;border:1px solid #dbe6f3;font-size:14px;
+    }
+    textarea{min-height:80px;resize:vertical}
+    .inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .color-box{width:36px;height:36px;border-radius:8px;cursor:pointer;border:3px solid transparent;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+    .color-box.selected{outline:3px solid rgba(0,0,0,0.06);transform:scale(1.03)}
+    .shape{padding:8px 10px;border-radius:8px;border:1px solid #e3eefc;cursor:pointer}
+    .shape.selected{background:var(--accent);color:white}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;cursor:pointer;border:none;font-weight:700}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(43,140,255,0.12)}
+    .preview{display:flex;gap:12px;align-items:center;margin-top:12px}
+    .avatar{width:98px;height:98px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:white;font-size:20px}
+    .meta{font-size:14px;color:#234}
+    .activities a, .contacts a{display:inline-block;margin:6px 6px 0 0;padding:8px 10px;border-radius:8px;text-decoration:none;background:#eef6ff;color:var(--accent);font-weight:600}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th, td{padding:8px;border-bottom:1px solid #eef4fb;text-align:left;font-size:13px}
+    .small{font-size:13px;color:#567}
+    #respuesta{margin-top:10px;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff">PP</div>
+      <div>
+        <h1>📘 Página de Presentación (Primaria)</h1>
+        <div class="small">Rellena la ficha, elige color/forma, guarda en Google Sheets y revisa las fichas desde cualquier equipo.</div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <!-- FORM -->
+      <main>
+        <form id="form" class="card" autocomplete="off">
+          <h2>1. Presentación académica y personal</h2>
+
+          <label>Seudónimo <small class="small">(obligatorio)</small>
+            <input type="text" name="seudonimo" required placeholder="Ej: Juanito">
+          </label>
+
+          <label>Edad / Curso
+            <input type="text" name="curso" placeholder="Ej: 8 años - 3° primaria">
+          </label>
+
+          <label>Escuela
+            <input type="text" name="escuela" placeholder="Nombre del colegio">
+          </label>
+
+          <label>Datos personales
+            <textarea name="datos" placeholder="Dirección, teléfono (opcional)"></textarea>
+          </label>
+
+          <label>Mensaje para la clase
+            <input type="text" name="mensaje" placeholder="Ej: Hola, me encanta leer">
+          </label>
+
+          <div style="margin-top:10px">
+            <label>Elige color favorito</label>
+            <div class="inline" id="colors">
+              <div class="color-box" data-color="Azul" style="background:#2b8cff"></div>
+              <div class="color-box" data-color="Naranja" style="background:#ff7a59"></div>
+              <div class="color-box" data-color="Verde" style="background:#33c37d"></div>
+              <div class="color-box" data-color="Morado" style="background:#7b61ff"></div>
+            </div>
+            <input type="hidden" name="color" id="color">
+          </div>
+
+          <div style="margin-top:10px">
+            <label>Elige forma</label>
+            <div class="inline" id="shapes">
+              <div class="shape" data-shape="circular">Circular</div>
+              <div class="shape" data-shape="rounded">Redondeada</div>
+              <div class="shape" data-shape="square">Cuadrada</div>
+            </div>
+            <input type="hidden" name="forma" id="forma">
+          </div>
+
+          <!-- Activities -->
+          <h2 style="margin-top:18px">2. Actividades / Cursos</h2>
+          <div class="activities">
+            <a href="assets/actividad1.pdf" download>📄 Actividad 1 (PDF)</a>
+            <a href="assets/actividad2.docx" download>📝 Actividad 2 (Word)</a>
+          </div>
+
+          <!-- Contacts on form -->
+          <h2 style="margin-top:18px">3. Contactos / Correo</h2>
+          <label>Correo de contacto
+            <input type="email" name="correo" placeholder="nombre@dominio.com">
+          </label>
+
+          <div style="display:flex;gap:10px;margin-top:14px;align-items:center">
+            <button class="btn" id="btn-guardar" type="submit">💾 Guardar en Google Sheets</button>
+            <button type="button" class="btn ghost" id="btn-guardar-local">📥 Guardar local (copia)</button>
+            <button type="button" class="btn ghost" id="btn-listar">📋 Ver registros</button>
+          </div>
+
+          <div id="respuesta" aria-live="polite"></div>
+        </form>
+      </main>
+
+      <!-- SIDEBAR: preview + list -->
+      <aside>
+        <section class="card">
+          <h3>Vista previa</h3>
+          <div class="preview">
+            <div class="avatar" id="avatar" style="background:#2b8cff">AA</div>
+            <div>
+              <div id="pv-seudonimo" style="font-weight:800">Seudónimo</div>
+              <div id="pv-curso" class="small">Curso</div>
+              <div id="pv-mensaje" class="small" style="margin-top:6px">Mensaje</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" style="margin-top:12px">
+          <h3>Registros guardados</h3>
+          <div style="display:flex;gap:8px">
+            <button class="btn ghost" id="btn-refrescar">🔄 Refrescar</button>
+            <button class="btn ghost" id="btn-export">⬇️ Exportar CSV</button>
+          </div>
+          <div id="lista" style="max-height:300px;overflow:auto;margin-top:10px;font-size:13px;color:#234"></div>
+        </section>
+
+        <section class="card" style="margin-top:12px">
+          <h4>Enlaces útiles</h4>
+          <div class="contacts">
+            <a href="https://classroom.google.com" target="_blank">Google Classroom</a>
+            <a href="https://juanacademy.example" target="_blank">Juan Academy</a>
+            <a href="https://chat.openai.com" target="_blank">ChatGPT</a>
+            <a href="https://citius.example" target="_blank">Citius</a>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <footer style="margin-top:18px;font-size:13px;color:#567">Hecho para primaria — guarda centralizada en Google Sheets. Recuerda reemplazar la URL del script y desplegarlo como web app (instrucciones abajo).</footer>
+  </div>
+
+  <script>
+  /***************** CONFIG (REEMPLAZA) *****************/
+  const SCRIPT_URL = "AQUI_PEGA_TU_URL_DEL_SCRIPT"; // <- pega la URL del Apps Script desplegado
+  /*******************************************************/
+
+  // DOM
+  const form = document.getElementById('form');
+  const avatar = document.getElementById('avatar');
+  const pvSeud = document.getElementById('pv-seudonimo');
+  const pvCurso = document.getElementById('pv-curso');
+  const pvMsg = document.getElementById('pv-mensaje');
+  const respuesta = document.getElementById('respuesta');
+  const listaContainer = document.getElementById('lista');
+
+  // color & shape selection
+  document.querySelectorAll('.color-box').forEach(box=>{
+    box.addEventListener('click', ()=> {
+      document.querySelectorAll('.color-box').forEach(b=>b.classList.remove('selected'));
+      box.classList.add('selected');
+      document.getElementById('color').value = box.dataset.color;
+      avatar.style.background = box.style.background;
+    });
+  });
+  document.querySelectorAll('.shape').forEach(sh=>{
+    sh.addEventListener('click', ()=>{
+      document.querySelectorAll('.shape').forEach(s=>s.classList.remove('selected'));
+      sh.classList.add('selected');
+      const shape = sh.dataset.shape;
+      if(shape === 'circular') avatar.style.borderRadius = '50%';
+      else if(shape === 'rounded') avatar.style.borderRadius = '14px';
+      else avatar.style.borderRadius = '6px';
+    });
+  });
+
+  // preview update
+  form.addEventListener('input', ()=>{
+    const fd = new FormData(form);
+    const s = fd.get('seudonimo') || 'AA';
+    pvSeud.textContent = s;
+    pvCurso.textContent = fd.get('curso') || '';
+    pvMsg.textContent = fd.get('mensaje') || '';
+    avatar.textContent = s.split(' ').map(w=>w[0]||'').slice(0,2).join('').toUpperCase();
+  });
+
+  // save local copy (fallback)
+  document.getElementById('btn-guardar-local').addEventListener('click', ()=>{
+    const data = Object.fromEntries(new FormData(form).entries());
+    localStorage.setItem('fichaAlumno_backup', JSON.stringify(data));
+    respuesta.textContent = '✅ Copia guardada en este navegador (LocalStorage).';
+  });
+
+  // submit -> Google Sheets
+  form.addEventListener('submit', async (ev)=>{
+    ev.preventDefault();
+    respuesta.textContent = 'Guardando...';
+    const data = Object.fromEntries(new FormData(form).entries());
+    // add timestamp on client (optional)
+    data._ts = new Date().toISOString();
+
+    // disable button
+    const btn = document.getElementById('btn-guardar');
+    btn.disabled = true; btn.textContent = 'Enviando...';
+
+    try{
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if(json && (json.result === 'ok' || json.status === 'ok')) {
+        respuesta.textContent = '✅ Datos guardados correctamente.';
+        form.reset();
+        // clear preview
+        pvSeud.textContent = 'Seudónimo';
+        pvCurso.textContent = 'Curso';
+        pvMsg.textContent = 'Mensaje';
+        avatar.textContent = 'AA';
+        document.querySelectorAll('.selected').forEach(e=>e.classList.remove('selected'));
+        // refresh list
+        loadList();
+      } else {
+        respuesta.textContent = '❌ Error guardando: ' + (json && json.message ? json.message : JSON.stringify(json));
+      }
+    }catch(err){
+      respuesta.textContent = '❌ Error de red o CORS: ' + err.message;
+    } finally {
+      btn.disabled = false; btn.textContent = '💾 Guardar en Google Sheets';
+    }
+  });
+
+  // load list of records (GET)
+  async function loadList(){
+    listaContainer.innerHTML = 'Cargando...';
+    try{
+      const res = await fetch(SCRIPT_URL); // doGet devuelve JSON con filas
+      const data = await res.json();
+      if(!Array.isArray(data) || data.length === 0){
+        listaContainer.innerHTML = '<div class="small">No hay registros aún.</div>';
+        return;
+      }
+      // show top 20
+      const rows = data.slice(-50).reverse();
+      const el = document.createElement('div');
+      el.innerHTML = rows.map(r => `<div style="padding:8px;border-bottom:1px solid #eef4fb">
+        <strong>${escapeHtml(r.Seudonimo||r.seudonimo||'')}</strong> — <span class="small">${escapeHtml(r.Curso||r.curso||'')}</span><br>
+        <span class="small">${escapeHtml((r.Mensaje||r.mensaje||'')).slice(0,80)}</span>
+      </div>`).join('');
+      listaContainer.innerHTML = '';
+      listaContainer.appendChild(el);
+    }catch(err){
+      listaContainer.innerHTML = '<div class="small">Error cargando registros: '+err.message+'</div>';
+    }
+  }
+
+  document.getElementById('btn-listar').addEventListener('click', loadList);
+  document.getElementById('btn-refrescar').addEventListener('click', loadList);
+
+  // export CSV
+  document.getElementById('btn-export').addEventListener('click', async ()=>{
+    try{
+      const res = await fetch(SCRIPT_URL);
+      const data = await res.json();
+      if(!Array.isArray(data) || data.length === 0) return alert('No hay registros para exportar');
+      const keys = Object.keys(data[0]);
+      const csv = [keys.join(',')].concat(data.map(row => keys.map(k=>`"${(row[k]||'').toString().replace(/"/g,'""')}"`).join(','))).join('\n');
+      const blob = new Blob([csv],{type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'alumnos.csv'; a.click(); URL.revokeObjectURL(url);
+    }catch(err){ alert('Error exportando: ' + err.message) }
+  });
+
+  // util
+  function escapeHtml(str){ return (str||'').toString().replace(/[&<>"']/g, s=>({ '&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":"&#39;" })[s]); }
+
+  // init
+  (function init(){
+    // try restore backup
+    const b = localStorage.getItem('fichaAlumno_backup');
+    if(b){
+      try{
+        const obj = JSON.parse(b);
+        for(const k in obj) if(form.elements[k]) form.elements[k].value = obj[k];
+      }catch(e){}
+    }
+    loadList();
+  })();
+
+  </script>
+</body>
+</html>
